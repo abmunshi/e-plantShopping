@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import './ProductList.css'
 import CartItem from './CartItem';
 import {addItem} from './CartSlice'
@@ -6,6 +7,7 @@ function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); 
     const [addedToCart, setAddedToCart] = useState({})
+    const dispatch = useDispatch()
 
     const plantsArray = [
         {
@@ -257,7 +259,7 @@ function ProductList({ onHomeClick }) {
 
     const handleAddToCart = (product)=> {
         // product dispatched to cartSlice
-        addItem(product)
+        dispatch(addItem(product))
         // update addedToCart variable
         setAddedToCart(prevState=> ({...prevState, [product.name]: true}))
     }
