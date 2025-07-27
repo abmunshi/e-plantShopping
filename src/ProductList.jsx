@@ -268,6 +268,10 @@ function ProductList({ onHomeClick }) {
     const calculateTotalQuantity = ()=> {
         return cartItems ? cartItems.reduce((total, item)=> total + item.quantity, 0): 0;
     }
+
+    const checkProductCartStatus = (name)=> {
+        return cartItems.find(item=> item.name === name)
+    }
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -292,7 +296,7 @@ function ProductList({ onHomeClick }) {
                 <div className="product-grid">
 {plantsArray.map((category, index) => ( // Loop through each category in plantsArray
   <div key={index}> {/* Unique key for each category div */}
-    <h1>
+      <h1>
       <div>{category.category}</div> {/* Display the category name */}
     </h1>
     <div className="product-list"> {/* Container for the list of plant cards */}
@@ -308,13 +312,14 @@ function ProductList({ onHomeClick }) {
           <div className="product-description">{plant.description}</div> {/* Display plant description */}
           <div className="product-cost">${plant.cost}</div> {/* Display plant cost */}
           <button
-            className="product-button"
+            className={`product-button ${checkProductCartStatus(plant.name)? 'added-to-cart': ''}`}
             onClick={() => handleAddToCart(plant)} // Handle adding plant to cart
+            disabled={checkProductCartStatus(plant.name)}
           >
              {addedToCart[plant.name]? 'Added to Cart': 'Add to Cart'}
           </button>
         </div>
-      ))}
+      ))} 
     </div>
   </div>
 ))}
