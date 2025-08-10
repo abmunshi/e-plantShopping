@@ -12,7 +12,8 @@ const SignUp = ({ authState }) => {
         onSubmit={handleSubmit((data) => {
           dispatch(
             signUp({
-              fullName: data.fullName,
+              firstName: data.firstName,
+              lastName: data.lastName,
               email: data.email,
               password: data.password,
             })
@@ -20,42 +21,33 @@ const SignUp = ({ authState }) => {
         })}
       >
         <div className="mb-6">
-          <Input
-            type="text"
-            size="lg"
-            placeholder="Your Full Name"
-            {...register("fullName")}
-            className="border-2 border-gray-400 focus:border-primary focus:ring-0 rounded-lg"
-          />
+          <Input placeholder="First Name" {...register("firstName")} />
         </div>
         <div className="mb-6">
-          <Input
-            type="email"
-            size="lg"
-            placeholder="Your Email"
-            {...register("email")}
-            className="border-2 border-gray-400 focus:border-primary focus:ring-0 rounded-lg"
-          />
+          <Input placeholder="Last Name " {...register("lastName")} />
+        </div>
+        <div className="mb-6">
+          <Input type="email" placeholder="Your Email" {...register("email")} />
         </div>
         <div className="mb-6">
           <Input
             type="password"
-            size="lg"
             placeholder="Password"
             {...register("password")}
-            className="border-2 border-gray-400 focus:border-primary focus:ring-0 rounded-lg"
           />
         </div>
         <div className="mb-6">
           <Input
             type="password"
-            size="lg"
             placeholder="Confirm Password"
             {...register("confirmPassword")}
-            className="border-2 border-gray-400 focus:border-primary focus:ring-0 rounded-lg"
           />
         </div>
-        <Button fullWidth type="submit">
+        <Button
+          fullWidth
+          type="submit"
+          isLoading={authState.loading === "pending" ? true : false}
+        >
           Sign Up
         </Button>
       </form>
