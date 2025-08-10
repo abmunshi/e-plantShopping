@@ -1,4 +1,5 @@
-export const signUp = async (fullName, email, password) => {
+import bcrypt from "bcryptjs";
+export const signUp = async (firstName, lastName, email, password) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const users = JSON.parse(localStorage.getItem("users") || "[]");
@@ -9,7 +10,8 @@ export const signUp = async (fullName, email, password) => {
           code: "auth/email-already-in-use",
         });
       } else {
-        users.push({ fullName, email, password });
+        const hashedPassword = bcrypt.hashSync(password, 10);
+        users.push({ firstName, lastName, email, password: hashedPassword });
         localStorage.setItem("users", JSON.stringify(users));
         sessionStorage.setItem("currentUserEmail", email);
         resolve({
@@ -27,7 +29,7 @@ export const signIn = async (email, password) => {
     setTimeout(() => {
       const users = JSON.parse(localStorage.getItem("users") || "[]");
       const user = users.find((u) => u.email === email);
-      if (user && user.password === password) {
+      if (user && bcrypt.compareSync(password, user.password)) {
         sessionStorage.setItem("currentUserEmail", email);
         resolve({
           uid: `mock-uid-${Date.now()}`,
