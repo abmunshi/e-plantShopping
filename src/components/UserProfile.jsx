@@ -5,11 +5,12 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@heroui/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { signOut } from "../redux/slices/authSlice";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>
@@ -24,14 +25,9 @@ export default function UserProfile() {
       <DropdownMenu>
         <DropdownItem key="profile" className="h-14 gap-2">
           <p className="font-semibold">Signed in as</p>
-          <p className="font-semibold">zoey@example.com</p>
+          <p className="font-semibold">{user && user.email}</p>
         </DropdownItem>
         <DropdownItem key="settings">My Settings</DropdownItem>
-        <DropdownItem key="team_settings">Team Settings</DropdownItem>
-        <DropdownItem key="analytics">Analytics</DropdownItem>
-        <DropdownItem key="system">System</DropdownItem>
-        <DropdownItem key="configurations">Configurations</DropdownItem>
-        <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
         <DropdownItem
           key="logout"
           color="danger"
