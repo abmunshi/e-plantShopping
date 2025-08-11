@@ -21,25 +21,19 @@ const SignIn = ({ authState }) => {
         className="mx-auto max-w-[24rem] text-left"
       >
         <div className="mb-6">
-          <Input
-            type="email"
-            size="lg"
-            placeholder="Email"
-            {...register("email")}
-            className="border-2 border-gray-400 focus:border-primary focus:ring-0 rounded-lg"
-          />
+          <Input type="email" placeholder="Email" {...register("email")} />
         </div>
         <div className="mb-1">
           <Input
             type="password"
-            size="lg"
             placeholder="Password"
             {...register("password")}
-            className="border-2 border-gray-400 focus:border-primary focus:ring-0 rounded-lg"
           />
         </div>
         <div className="text-right mb-6">
-          <p className="text-black text-base font-medium">Forgot password</p>
+          <a href="#" className="text-black text-base font-medium">
+            Forgot password
+          </a>
         </div>
         <Button
           type="submit"
