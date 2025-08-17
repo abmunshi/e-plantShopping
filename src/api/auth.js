@@ -1,5 +1,5 @@
 import bcrypt from "bcryptjs";
-export const signUp = async (firstName, lastName, email, password) => {
+export const signUp = async (username, email, password) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const users = JSON.parse(localStorage.getItem("users") || "[]");
@@ -11,7 +11,7 @@ export const signUp = async (firstName, lastName, email, password) => {
         });
       } else {
         const hashedPassword = bcrypt.hashSync(password, 10);
-        users.push({ firstName, lastName, email, password: hashedPassword });
+        users.push({ username, email, password: hashedPassword });
         localStorage.setItem("users", JSON.stringify(users));
         sessionStorage.setItem("currentUserEmail", email);
         resolve({

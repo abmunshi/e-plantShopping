@@ -12,8 +12,7 @@ const SignUp = ({ authState }) => {
         onSubmit={handleSubmit((data) => {
           dispatch(
             signUp({
-              firstName: data.firstName,
-              lastName: data.lastName,
+              username: data.username,
               email: data.email,
               password: data.password,
             })
@@ -21,10 +20,7 @@ const SignUp = ({ authState }) => {
         })}
       >
         <div className="mb-6">
-          <Input placeholder="First Name" {...register("firstName")} />
-        </div>
-        <div className="mb-6">
-          <Input placeholder="Last Name " {...register("lastName")} />
+          <Input placeholder="Username" {...register("username")} />
         </div>
         <div className="mb-6">
           <Input type="email" placeholder="Your Email" {...register("email")} />
