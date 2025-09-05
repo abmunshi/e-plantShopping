@@ -31,6 +31,7 @@ export const signUp = createAsyncThunk(
     const { username, email, password } = payload;
     try {
       const response = await signUpApi(username, email, password);
+      console.log("SignUp response:", response);
       return response;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -65,7 +66,7 @@ export const checkAuthStatus = createAsyncThunk(
 const authSlice = createSlice({
   name: "auth",
   initialState: {
-    user: null, // { uid, email, name }
+    user: null,
     isAuthenticated: false,
     loading: "idle", // 'idle' | 'pending' | 'succeeded' | 'failed'
     error: null,
@@ -91,7 +92,7 @@ const authSlice = createSlice({
       })
       .addCase(signUp.fulfilled, (state, action) => {
         state.loading = "succeeded";
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.isAuthenticated = true;
         state.error = null;
       })

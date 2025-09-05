@@ -1,27 +1,34 @@
 import bcrypt from "bcryptjs";
 export const signUp = async (username, email, password) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
-      const user = users.find((user) => user.email === email);
-      if (user) {
-        reject({
-          message: "User already exists",
-          code: "auth/email-already-in-use",
-        });
-      } else {
-        const hashedPassword = bcrypt.hashSync(password, 10);
-        users.push({ username, email, password: hashedPassword });
-        localStorage.setItem("users", JSON.stringify(users));
-        sessionStorage.setItem("currentUserEmail", email);
-        resolve({
-          uid: `mock-uid-${Date.now()}`,
-          email,
-          message: "Registration successful",
-        });
+  try {
+    const response = await fetch(
+      "http://localhost:1337/api/auth/local/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, email, password }),
       }
-    }, 500);
-  });
+    );
+    const data = await response.json();
+    if (!response.ok) {
+      const errorMsg =
+        data?.error?.message || data?.message || "Sign up failed";
+      throw new Error(errorMsg);
+    }
+
+    // Store JWT and user data in session storage
+    sessionStorage.setItem("jwt", data.jwt);
+    sessionStorage.setItem("currentUserEmail", data.user.email);
+
+    console.log("User registered successfully:", data);
+
+    return data;
+  } catch (err) {
+    console.log(err.message);
+    throw err;
+  }
 };
 
 export const signIn = async (email, password) => {
@@ -56,20 +63,28 @@ export const signOut = async () => {
 };
 
 export const getCurrentUser = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
-      const storedUserEmail = sessionStorage.getItem("currentUserEmail");
-      const user = users.find((u) => u.email === storedUserEmail);
-      if (user) {
-        resolve({
-          uid: `mock-uid-${Date.now()}`,
-          email: storedUserEmail,
-          name: user.fullName,
-        });
-      } else {
-        resolve(null); // No user logged in
-      }
-    }, 100);
-  });
+  const jwt = sessionStorage.getItem("jwt");
+  if (!jwt) {
+    return null; // No user logged in
+  }
+  try {
+    const response = await fetch("http://localhost:1337/api/users/me", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      const errorMsg = data?.error?.message || "Failed to fetch user data";
+      throw new Error(errorMsg);
+    }
+
+    return data;
+  } catch (error) {
+    console.log("Error fetching current user:", error);
+    throw error;
+  }
 };
