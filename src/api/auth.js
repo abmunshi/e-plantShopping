@@ -1,4 +1,5 @@
-import bcrypt from "bcryptjs";
+import toast from "react-hot-toast";
+
 export const signUp = async (username, email, password) => {
   try {
     const response = await fetch(
@@ -20,10 +21,7 @@ export const signUp = async (username, email, password) => {
 
     // Store JWT and user data in session storage
     sessionStorage.setItem("jwt", data.jwt);
-    sessionStorage.setItem("currentUserEmail", data.user.email);
-
     console.log("User registered successfully:", data);
-
     return data;
   } catch (err) {
     console.log(err.message);
@@ -32,34 +30,32 @@ export const signUp = async (username, email, password) => {
 };
 
 export const signIn = async (email, password) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const users = JSON.parse(localStorage.getItem("users") || "[]");
-      const user = users.find((u) => u.email === email);
-      if (user && bcrypt.compareSync(password, user.password)) {
-        sessionStorage.setItem("currentUserEmail", email);
-        resolve({
-          uid: `mock-uid-${Date.now()}`,
-          email,
-          message: "SignIn successful",
-        });
-      } else {
-        reject({
-          message: "Invalid credentials",
-          code: "auth/invalid-credentials",
-        });
-      }
-    }, 1000);
-  });
+  try {
+    const response = await fetch("http://localhost:1337/api/auth/local", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ identifier: email, password: password }),
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      const errorMsg =
+        data?.error?.message || data?.message || "Sign in failed";
+      throw new Error(errorMsg);
+    }
+    sessionStorage.setItem("jwt", data.jwt);
+    console.log("User signed in successfully:", data);
+  } catch (err) {
+    toast.error(err.message || "Sign in failed");
+    console.log(err.message);
+    throw err;
+  }
 };
 
 export const signOut = async () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      sessionStorage.removeItem("currentUserEmail"); // Clear session storage
-      resolve({ message: "Logged out successfully" });
-    }, 300);
-  });
+  sessionStorage.removeItem("jwt");
 };
 
 export const getCurrentUser = async () => {

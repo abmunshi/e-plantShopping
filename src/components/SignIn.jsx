@@ -3,31 +3,45 @@ import { signIn } from "../redux/slices/authSlice";
 import { useDispatch } from "react-redux";
 import { Button, Input } from "@heroui/react";
 import { DividerWithTextHr } from "./Utls";
+import FormInput from "./auth/FormInput";
+import toast from "react-hot-toast";
 const SignIn = ({ authState }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { handleSubmit, control } = useForm();
   const dispatch = useDispatch();
+  const onSubmit = (data) => {
+    dispatch(signIn({ email: data.email, password: data.password }));
+  };
 
   return (
     <div>
       <form
-        onSubmit={handleSubmit((data) => {
-          dispatch(signIn({ email: data.email, password: data.password }));
-        })}
+        onSubmit={handleSubmit(onSubmit)}
         action="#"
         className="mx-auto max-w-[24rem] text-left"
       >
         <div className="mb-6">
-          <Input type="email" placeholder="Email" {...register("email")} />
+          <FormInput
+            name="email"
+            control={control}
+            placeholder="Your Email"
+            rules={{
+              required: "Email is required",
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Invalid email address",
+              },
+            }}
+          />
         </div>
         <div className="mb-1">
-          <Input
-            type="password"
+          <FormInput
+            name="password"
+            control={control}
             placeholder="Password"
-            {...register("password")}
+            type="password"
+            rules={{
+              required: "Password is required",
+            }}
           />
         </div>
         <div className="text-right mb-6">
