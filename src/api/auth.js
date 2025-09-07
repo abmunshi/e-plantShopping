@@ -1,17 +1,15 @@
 import toast from "react-hot-toast";
+const API_URL = import.meta.env.VITE_API_URL;
 
 export const signUp = async (username, email, password) => {
   try {
-    const response = await fetch(
-      "http://localhost:1337/api/auth/local/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, email, password }),
-      }
-    );
+    const response = await fetch(`${API_URL}/api/auth/local/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, email, password }),
+    });
     const data = await response.json();
     if (!response.ok) {
       const errorMsg =
@@ -31,7 +29,7 @@ export const signUp = async (username, email, password) => {
 
 export const signIn = async (email, password) => {
   try {
-    const response = await fetch("http://localhost:1337/api/auth/local", {
+    const response = await fetch(`${API_URL}/api/auth/local`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +62,7 @@ export const getCurrentUser = async () => {
     return null; // No user logged in
   }
   try {
-    const response = await fetch("http://localhost:1337/api/users/me", {
+    const response = await fetch(`${API_URL}/api/users/me`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${jwt}`,
