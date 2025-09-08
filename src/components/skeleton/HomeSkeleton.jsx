@@ -5,7 +5,7 @@ const CardSkeleton = () => {
   return (
     <Card className="space-y-5 p-4 rounded-none">
       <Skeleton className="">
-        <div className="h-[300px] rounded-lg bg-default-300" />
+        <div className="h-[277px] rounded-lg bg-default-300" />
       </Skeleton>
       <div className="space-y-4 py-6">
         <Skeleton className="w-3/5 rounded-lg">
@@ -25,6 +25,10 @@ const CardSkeleton = () => {
 const HomeSkeleton = () => {
   return (
     <div className="grid grid-cols-4 gap-4">
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
+      <CardSkeleton />
       <CardSkeleton />
       <CardSkeleton />
       <CardSkeleton />
