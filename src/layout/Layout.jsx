@@ -3,6 +3,7 @@ import { Outlet } from "react-router";
 import Header from "./Header";
 import { useDispatch } from "react-redux";
 import { checkAuthStatus } from "../redux/slices/authSlice";
+import Footer from "./Footer";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -13,9 +14,10 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <main className="py-10">
+      <main className="py-14">
         <Outlet />
       </main>
+      <Footer />
     </>
   );
 };
