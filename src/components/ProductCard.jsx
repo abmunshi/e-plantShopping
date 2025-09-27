@@ -1,28 +1,38 @@
-import { Button } from "@heroui/react";
 import { useDispatch } from "react-redux";
-import { addItem } from "../redux/slices/CartSlice";
+import { addItemToCart } from "../redux/slices/CartSlice";
+import { Button } from "@heroui/react";
+import toast from "react-hot-toast";
 import { StarIcon } from "@heroicons/react/16/solid";
-const ProductCard = ({ name, image, description, cost }) => {
+import { API_URL } from "../config/config";
+import { getJWT } from "../helpers/jwt";
+const ProductCard = ({ productId, thumbnail, title, description, price }) => {
   const dispatch = useDispatch();
-  const handleAddToCart = () => {
-    dispatch(addItem({ name, image, cost }));
+  const handleAddToCart = async () => {
+    const jwt = getJWT();
+    if (!jwt) {
+      toast.error("Please login to add items to your cart.", {
+        id: "add-to-cart-error",
+      });
+      return;
+    }
+    await dispatch(addItemToCart({ productId, quantity: 1 }));
   };
   return (
     <div className="border border-gray-300 p-4">
       <div className="bg-gray-50 h-[246px] text-center mb-3">
         <img
           className="max-h-full max-w-full mx-auto"
-          src={image}
+          src={`${API_URL}` + thumbnail}
           alt="thumbnail"
         />
       </div>
-      <h4 className="font-bold text-base mb-1">{name}</h4>
+      <h4 className="font-bold text-base mb-1">{title}</h4>
       <p className="text-sm leading-tight mb-3 line-clamp-2">{description}</p>
       <div className="flex items-center gap-2 justify-between mb-3.5">
         <p className="flex items-center gap-1">
-          <span className="inline-block font-bold text-base">${cost - 5}</span>
+          <span className="inline-block font-bold text-base">${price - 5}</span>
           <span className="line-through inline-block font-normal text-xs ml-1 text-black/60 leading-tight">
-            ${cost}
+            ${price}
           </span>
         </p>
         <p className="flex items-center gap-1">

@@ -4,7 +4,6 @@ import { useDispatch } from "react-redux";
 import { Button, Input } from "@heroui/react";
 import { DividerWithTextHr } from "./Utls";
 import FormInput from "./auth/FormInput";
-import toast from "react-hot-toast";
 const SignIn = ({ authState }) => {
   const { handleSubmit, control } = useForm();
   const dispatch = useDispatch();

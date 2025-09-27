@@ -3,33 +3,27 @@ import { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import { Container } from "../components/Utls";
 import HomeSkeleton from "../components/skeleton/HomeSkeleton";
+import { getProducts } from "../api/products";
 const API_URL = import.meta.env.VITE_API_URL;
 
 const Home = () => {
-  const [plants, setPlants] = useState([]);
+  const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  useEffect(() => {
-    const fetchPlants = async () => {
-      try {
-        const res = await fetch(`${API_URL}/api/plants?populate=*`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
 
-        if (!res.ok) {
-          throw new Error("Failed to fetch plants");
-        }
-        const data = await res.json();
-        setPlants(data.data);
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching plants:", error);
+  useEffect(() => {
+    const fetchInitial = async () => {
+      setIsLoading(true);
+      try {
+        const data = await getProducts({ page: 1, pageSize: 12 });
+        setProducts(data.data);
+        console.log("Fetched products:", data);
+      } catch (err) {
+        console.log(err.message);
       }
+      setIsLoading(false);
     };
 
-    fetchPlants();
+    fetchInitial();
   }, []);
   return (
     <Container>
@@ -37,17 +31,15 @@ const Home = () => {
         <HomeSkeleton />
       ) : (
         <div className="grid grid-cols-4 gap-4">
-          {plants.length > 0 &&
-            plants.map((plant) => (
+          {products.length > 0 &&
+            products.map((product) => (
               <ProductCard
-                key={plant.id}
-                name={plant.title}
-                subtitle={plant.subtitle}
-                image={
-                  plant.thumbnail.formats?.small.url || plant.thumbnail.url
-                }
-                description={plant.description}
-                cost={plant.price}
+                key={product.documentId}
+                thumbnail={product.image.formats?.thumbnail.url}
+                title={product.title}
+                description={product.subtitle}
+                price={product.price}
+                productId={product.documentId}
               />
             ))}
         </div>

@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-const API_URL = import.meta.env.VITE_API_URL;
+import { API_URL } from "../config/config.js";
 
 export const signUp = async (username, email, password) => {
   try {

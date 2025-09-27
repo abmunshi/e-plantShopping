@@ -1,11 +1,14 @@
 import { useDispatch } from "react-redux";
-import { removeItem, updateQuantity } from "../redux/slices/CartSlice";
+import { removeItemFromCart, updateQuantity } from "../redux/slices/CartSlice";
 import { Button } from "@heroui/react";
 import { XMarkIcon } from "@heroicons/react/16/solid";
+import { API_URL } from "../config/config";
+import Counter from "./cart/Counter";
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const handleChange = (val) => {
+    console.log("item in cart item:", item);
     dispatch(updateQuantity({ ...item, quantity: val }));
   };
   return (
@@ -13,32 +16,22 @@ const CartItem = ({ item }) => {
       <div className="bg-gray-50 h-[192px] w-[192px] text-center">
         <img
           className="max-h-full max-w-full mx-auto"
-          src={item.image}
+          src={`${API_URL}` + item.thumbnail}
           alt="thumbnail"
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <h4>{item.name}</h4>
-          <p>{item.cost}</p>
+          <h4>{item.title}</h4>
+          <p>{item.price}</p>
         </div>
         <div className="max-w-16">
-          <select
+          <Counter
             value={item.quantity}
-            className="w-full"
-            onChange={(e) => handleChange(parseInt(e.target.value))}
-          >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-          </select>
+            min={1}
+            max={item.stock}
+            onChange={handleChange}
+          />
         </div>
       </div>
 
@@ -47,7 +40,8 @@ const CartItem = ({ item }) => {
           isIconOnly
           className="bg-transparent hover:bg-gray-200 border-0"
           onPress={() => {
-            dispatch(removeItem(item));
+            console.log("clicked on delete button in cart item");
+            dispatch(removeItemFromCart({ id: item.id }));
           }}
         >
           <XMarkIcon className="w-6 h-6" />

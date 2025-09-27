@@ -1,9 +1,12 @@
-import React from "react";
-import { Provider } from "react-redux";
+import React, { useEffect } from "react";
+import { Provider, useDispatch } from "react-redux";
 import store from "../redux/store";
-import { HeroUIProvider } from "@heroui/react";
+import { HeroUIProvider, useSelect } from "@heroui/react";
 import { BrowserRouter } from "react-router";
 import { Toaster } from "react-hot-toast";
+import CartLoaderModal from "../components/cart/CartLoaderModal";
+import { getJWT } from "../helpers/jwt";
+import { checkAuthStatus } from "../redux/slices/authSlice";
 
 const Providers = ({ children }) => {
   return (
@@ -12,6 +15,7 @@ const Providers = ({ children }) => {
         <BrowserRouter>
           {children}
           <Toaster />
+          <CartLoaderModal />
         </BrowserRouter>
       </HeroUIProvider>
     </Provider>

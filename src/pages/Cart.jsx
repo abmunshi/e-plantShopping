@@ -4,7 +4,7 @@ import CartItem from "../components/CartItem";
 import { Container } from "../components/Utls";
 const Cart = () => {
   const cartState = useSelector((state) => state.cart);
-
+  console.log("Cart state:", cartState);
   return (
     <Container>
       <h3> Your Cart</h3>
@@ -12,7 +12,7 @@ const Cart = () => {
         <div>
           {cartState.items.length > 0 ? (
             cartState.items.map((item) => (
-              <CartItem key={item.name} item={item} />
+              <CartItem key={item.id} item={item} />
             ))
           ) : (
             <p>Your cart is empty</p>
