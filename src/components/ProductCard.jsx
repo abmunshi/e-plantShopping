@@ -1,11 +1,11 @@
 import { useDispatch } from "react-redux";
 import { addItemToCart } from "../redux/slices/CartSlice";
-import { Button } from "@heroui/react";
+import { Badge, Button, Chip } from "@heroui/react";
 import toast from "react-hot-toast";
 import { StarIcon } from "@heroicons/react/16/solid";
 import { API_URL } from "../config/config";
 import { getJWT } from "../helpers/jwt";
-const ProductCard = ({ productId, thumbnail, title, description, price }) => {
+const ProductCard = ({ productId, thumbnail, title, summary, price }) => {
   const dispatch = useDispatch();
   const handleAddToCart = async () => {
     const jwt = getJWT();
@@ -18,7 +18,16 @@ const ProductCard = ({ productId, thumbnail, title, description, price }) => {
     await dispatch(addItemToCart({ productId, quantity: 1 }));
   };
   return (
-    <div className="border border-gray-300 p-4">
+    <div className="border border-gray-300 p-4 relative">
+      <div className="absolute right-0 -top-4">
+        <Chip
+          variant="solid"
+          color="danger"
+          className="bg-[#F4991A] text-white"
+        >
+          -10%
+        </Chip>
+      </div>
       <div className="bg-gray-50 h-[246px] text-center mb-3">
         <img
           className="max-h-full max-w-full mx-auto"
@@ -27,7 +36,9 @@ const ProductCard = ({ productId, thumbnail, title, description, price }) => {
         />
       </div>
       <h4 className="font-bold text-base mb-1">{title}</h4>
-      <p className="text-sm leading-tight mb-3 line-clamp-2">{description}</p>
+      <p className="text-sm leading-tight mb-3 line-clamp-2 h-[35px]">
+        {summary}
+      </p>
       <div className="flex items-center gap-2 justify-between mb-3.5">
         <p className="flex items-center gap-1">
           <span className="inline-block font-bold text-base">${price - 5}</span>
@@ -47,7 +58,7 @@ const ProductCard = ({ productId, thumbnail, title, description, price }) => {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Button className="rounded-none">View Details</Button>
+        <Button className="rounded-none">Quick View</Button>
         <Button
           onPress={handleAddToCart}
           className="bg-primary rounded-none text-white"

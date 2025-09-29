@@ -7,6 +7,21 @@ import {
 } from "../../api/cart";
 import { getJWT } from "../../helpers/jwt";
 
+function setCartItems(cart_items) {
+  return cart_items.map((item) => ({
+    id: item.documentId,
+    productId: item.product.documentId,
+    thumbnail: item.product.image.formats?.thumbnail.url,
+    title: item.product.title,
+    summary: item.product.summary,
+    description: item.product.description,
+    price: item.product.price,
+    quantity: item.quantity,
+    variant: item.variant,
+    stock: item.product.stock,
+  }));
+}
+
 export const getCurrentCart = createAsyncThunk(
   "cart/getCurrentCart",
   async () => {
@@ -16,11 +31,11 @@ export const getCurrentCart = createAsyncThunk(
 
 export const addItemToCart = createAsyncThunk(
   "cart/addItemToCart",
-  async ({ productId, quantity }, { dispatch, rejectWithValue }) => {
+  async ({ productId, quantity }, { rejectWithValue }) => {
     try {
       const jwt = getJWT();
-      await addItemToCartApi(jwt, productId, quantity);
-      await dispatch(getCurrentCart());
+      const updatedCart = await addItemToCartApi(jwt, productId, quantity);
+      return updatedCart;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -29,11 +44,11 @@ export const addItemToCart = createAsyncThunk(
 
 export const removeItemFromCart = createAsyncThunk(
   "cart/removeItemFromCart",
-  async ({ id }, { dispatch, rejectWithValue }) => {
+  async ({ id }, { rejectWithValue }) => {
     try {
       const jwt = getJWT();
-      await removeItemFromCartApi(jwt, id);
-      await dispatch(getCurrentCart());
+      const updatedCart = await removeItemFromCartApi(jwt, id);
+      return updatedCart;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -42,11 +57,11 @@ export const removeItemFromCart = createAsyncThunk(
 
 export const updateQuantity = createAsyncThunk(
   "cart/updateQuantity",
-  async ({ id, quantity }, { dispatch, rejectWithValue }) => {
+  async ({ id, quantity }, { rejectWithValue }) => {
     try {
       const jwt = getJWT();
-      await updateQuantityApi(jwt, id, quantity);
-      await dispatch(getCurrentCart());
+      const updatedCart = await updateQuantityApi(jwt, id, quantity);
+      return updatedCart;
     } catch (err) {
       console.error("Error updating quantity:", error);
       return rejectWithValue(err.message);
@@ -100,17 +115,7 @@ export const CartSlice = createSlice({
     builder.addCase(getCurrentCart.fulfilled, (state, action) => {
       console.log("Cart API payload:", action.payload);
       state.loading = false;
-      state.items = action.payload.cart_items.map((item) => ({
-        id: item.documentId,
-        productId: item.product.documentId,
-        thumbnail: item.product.image.formats?.thumbnail.url,
-        title: item.product.title,
-        description: item.product.description,
-        price: item.product.price,
-        quantity: item.quantity,
-        variant: item.variant,
-        stock: item.product.stock,
-      }));
+      state.items = setCartItems(action.payload.cart_items);
       state.error = null;
     });
     builder.addCase(getCurrentCart.rejected, (state, action) => {
@@ -123,8 +128,10 @@ export const CartSlice = createSlice({
       state.error = null;
     });
     builder.addCase(addItemToCart.fulfilled, (state, action) => {
+      console.log("AddItemToCart API payload:", action.payload);
       state.loading = false;
       state.error = null;
+      state.items = setCartItems(action.payload.cart_items);
     });
     builder.addCase(addItemToCart.rejected, (state, action) => {
       state.loading = false;
@@ -136,6 +143,7 @@ export const CartSlice = createSlice({
     });
     builder.addCase(removeItemFromCart.fulfilled, (state, action) => {
       state.loading = false;
+      state.items = setCartItems(action.payload.cart_items);
       state.error = null;
     });
     builder.addCase(removeItemFromCart.rejected, (state, action) => {
@@ -148,6 +156,7 @@ export const CartSlice = createSlice({
     });
     builder.addCase(updateQuantity.fulfilled, (state, action) => {
       state.loading = false;
+      state.items = setCartItems(action.payload.cart_items);
       state.error = null;
     });
     builder.addCase(updateQuantity.rejected, (state, action) => {

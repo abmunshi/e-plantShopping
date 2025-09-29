@@ -57,6 +57,15 @@ export const removeItemFromCart = async (jwt, id) => {
       },
       body: JSON.stringify({ id }),
     });
+
+    const data = await res.json();
+    if (!res.ok) {
+      const errorMsg =
+        data?.error?.message || "Failed to remove item from cart";
+      throw new Error(errorMsg);
+    }
+    console.log("removeItemFromCart response data:", data);
+    return data.data;
   } catch (err) {
     console.log(err.message);
     throw err;

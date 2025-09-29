@@ -14,10 +14,12 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <main className="py-14">
-        <Outlet />
-      </main>
-      <Footer />
+      <div className="flex flex-col min-h-[calc(100vh-88px)]">
+        <main className="py-14">
+          <Outlet />
+        </main>
+        <Footer />
+      </div>
     </>
   );
 };

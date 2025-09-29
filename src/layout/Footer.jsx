@@ -3,7 +3,7 @@ import { Container } from "../components/Utls";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary py-5">
+    <footer className="bg-primary py-5 mt-auto">
       <Container>
         <div className="text-center text-white">Footer</div>
       </Container>

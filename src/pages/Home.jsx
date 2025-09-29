@@ -37,7 +37,7 @@ const Home = () => {
                 key={product.documentId}
                 thumbnail={product.image.formats?.thumbnail.url}
                 title={product.title}
-                description={product.subtitle}
+                summary={product.summary}
                 price={product.price}
                 productId={product.documentId}
               />
