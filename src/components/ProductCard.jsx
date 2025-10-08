@@ -20,11 +20,7 @@ const ProductCard = ({ productId, thumbnail, title, summary, price }) => {
   return (
     <div className="border border-gray-300 p-4 relative">
       <div className="absolute right-0 -top-4">
-        <Chip
-          variant="solid"
-          color="danger"
-          className="bg-[#F4991A] text-white"
-        >
+        <Chip variant="solid" color="danger" className="bg-warning text-white">
           -10%
         </Chip>
       </div>

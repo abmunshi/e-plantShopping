@@ -27,13 +27,14 @@ export default function UserProfile() {
           <p className="font-semibold">Signed in as</p>
           <p className="font-semibold">{user && user.email}</p>
         </DropdownItem>
-        <DropdownItem key="settings">My Settings</DropdownItem>
+        <DropdownItem key="settings">My Orders</DropdownItem>
+        <DropdownItem key="settings">Settings</DropdownItem>
         <DropdownItem
           key="logout"
           color="danger"
           onPress={() => dispatch(signOut())}
         >
-          Log Out
+          Sign Out
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
