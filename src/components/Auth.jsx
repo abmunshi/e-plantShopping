@@ -1,24 +1,18 @@
-import { useSelector } from "react-redux";
 import {
   Modal,
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
   Button,
   useDisclosure,
   Tabs,
   Tab,
-  useSelect,
 } from "@heroui/react";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 
 export default function Auth() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const authState = useSelector((state) => state.auth);
-
   return (
     <>
       <Button
@@ -47,10 +41,10 @@ export default function Auth() {
                     }}
                   >
                     <Tab key="signIn" title="Sign In">
-                      <SignIn authState={authState} />
+                      <SignIn />
                     </Tab>
                     <Tab key="signUp" title="Sign Up">
-                      <SignUp authState={authState} />
+                      <SignUp />
                     </Tab>
                   </Tabs>
                 </div>

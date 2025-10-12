@@ -69,33 +69,43 @@ const authSlice = createSlice({
   initialState: {
     user: null,
     isAuthenticated: false,
-    loading: "idle", // 'idle' | 'pending' | 'succeeded' | 'failed'
+    loading: false,
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(signIn.pending, (state) => {
-        state.loading = "pending";
+        state.loading = true;
         state.error = null;
       })
       .addCase(signIn.fulfilled, (state, action) => {
-        state.loading = "succeeded";
+        state.loading = false;
         state.user = action.payload;
         state.isAuthenticated = true;
         state.error = null;
       })
       .addCase(signIn.rejected, (state, action) => {
-        state.loading = "failed";
+        state.loading = false;
         state.error = action.payload || "Sign in failed";
         state.user = null;
         state.isAuthenticated = false;
       })
+      .addCase(signUp.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
       .addCase(signUp.fulfilled, (state, action) => {
-        state.loading = "succeeded";
+        state.loading = false;
         state.user = action.payload.user;
         state.isAuthenticated = true;
         state.error = null;
+      })
+      .addCase(signUp.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Sign up failed";
+        state.user = null;
+        state.isAuthenticated = false;
       })
       .addCase(checkAuthStatus.fulfilled, (state, action) => {
         if (action.payload) {
@@ -116,3 +126,8 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+
+export const selectIsAuthenticated = (state) => state.auth.isAuthenticated;
+export const selectIsAuthLoading = (state) => state.auth.loading;
+export const selectUser = (state) => state.auth.user;
+export const selectAuthError = (state) => state.auth.error;

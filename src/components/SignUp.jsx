@@ -1,12 +1,12 @@
 import { Button } from "@heroui/react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { signUp } from "../redux/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsAuthLoading, signUp } from "../redux/slices/authSlice";
 import FormInput from "./auth/FormInput";
-const SignUp = ({ authState }) => {
+const SignUp = () => {
   const { handleSubmit, watch, control } = useForm();
   const dispatch = useDispatch();
-
+  const isLoading = useSelector(selectIsAuthLoading);
   const onSubmit = (data) => {
     dispatch(
       signUp({
@@ -77,11 +77,7 @@ const SignUp = ({ authState }) => {
             }}
           />
         </div>
-        <Button
-          fullWidth
-          type="submit"
-          isLoading={authState.loading === "pending" ? true : false}
-        >
+        <Button fullWidth type="submit" isLoading={isLoading}>
           Sign Up
         </Button>
       </form>

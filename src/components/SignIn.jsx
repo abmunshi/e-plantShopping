@@ -1,15 +1,18 @@
 import { useForm } from "react-hook-form";
-import { signIn } from "../redux/slices/authSlice";
-import { useDispatch } from "react-redux";
-import { Button, Input } from "@heroui/react";
+import { useDispatch, useSelector } from "react-redux";
+import { selectIsAuthLoading, signIn } from "../redux/slices/authSlice";
+import { Button } from "@heroui/react";
 import { DividerWithTextHr } from "./Utls";
 import FormInput from "./auth/FormInput";
-const SignIn = ({ authState }) => {
+const SignIn = () => {
   const { handleSubmit, control } = useForm();
   const dispatch = useDispatch();
+  const isLoading = useSelector(selectIsAuthLoading);
   const onSubmit = (data) => {
     dispatch(signIn({ email: data.email, password: data.password }));
   };
+
+  console.log("isLoading:", isLoading);
 
   return (
     <div>
@@ -52,7 +55,7 @@ const SignIn = ({ authState }) => {
           type="submit"
           fullWidth
           className="gap-2 rounded-lg font-semibold "
-          isLoading={authState.loading == "pending" ? true : false}
+          isLoading={isLoading}
         >
           sign in
         </Button>
@@ -64,6 +67,7 @@ const SignIn = ({ authState }) => {
         <Button
           fullWidth
           className="mt-6 flex w-full items-center justify-center gap-2"
+          isLoading={isLoading}
         >
           <img
             src={`https://www.material-tailwind.com/logos/logo-google.png`}

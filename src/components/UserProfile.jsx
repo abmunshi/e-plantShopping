@@ -6,11 +6,11 @@ import {
   DropdownTrigger,
 } from "@heroui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { signOut } from "../redux/slices/authSlice";
+import { selectUser, signOut } from "../redux/slices/authSlice";
 
 export default function UserProfile() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.auth.user);
+  const user = useSelector(selectUser);
   return (
     <Dropdown placement="bottom-end">
       <DropdownTrigger>

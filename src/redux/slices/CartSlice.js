@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSelector,
+  createSlice,
+} from "@reduxjs/toolkit";
 import {
   getCurrent,
   addItemToCart as addItemToCartApi,
@@ -169,3 +173,39 @@ export const CartSlice = createSlice({
 export const { addItem, removeItem, setCart } = CartSlice.actions;
 
 export default CartSlice.reducer;
+
+export const selectCartItems = (state) => state.cart.items;
+
+export const selectCartTotals = createSelector([selectCartItems], (items) => {
+  const subtotal = items.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+  const taxRate = 0.03; // 3% tax
+  const shippingFee = items.length > 0 ? 1.5 : 0;
+  const tax = subtotal * taxRate;
+  const total = subtotal + tax + shippingFee;
+
+  return {
+    subtotal: parseFloat(subtotal.toFixed(2)),
+    tax: parseFloat(tax.toFixed(2)),
+    shipping: shippingFee,
+    total: parseFloat(total.toFixed(2)),
+    itemCount: items.reduce((count, item) => count + item.quantity, 0),
+  };
+});
+
+export const selectCartItemCount = createSelector([selectCartItems], (items) =>
+  items.reduce((total, item) => total + item.quantity, 0)
+);
+
+const select9 = (para1) => para1;
+const select8 = (x) => 8 + x;
+const selectA = createSelector([select9, select8], (resultA, resultB) => {
+  console.log(resultA, resultB);
+});
+
+console.log("Testing selectA:");
+
+selectA(10);
+selectA(10);
