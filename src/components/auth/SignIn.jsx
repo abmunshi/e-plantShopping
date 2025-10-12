@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsAuthLoading, signIn } from "../redux/slices/authSlice";
+import { selectIsAuthLoading, signIn } from "../../redux/slices/authSlice";
 import { Button } from "@heroui/react";
-import { DividerWithTextHr } from "./Utls";
-import FormInput from "./auth/FormInput";
+import { DividerWithTextHr } from "../Utls";
+import FormInput from "./FormInput";
 const SignIn = () => {
   const { handleSubmit, control } = useForm();
   const dispatch = useDispatch();

@@ -1,8 +1,8 @@
 import { Button } from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsAuthLoading, signUp } from "../redux/slices/authSlice";
-import FormInput from "./auth/FormInput";
+import { selectIsAuthLoading, signUp } from "../../redux/slices/authSlice";
+import FormInput from "./FormInput";
 const SignUp = () => {
   const { handleSubmit, watch, control } = useForm();
   const dispatch = useDispatch();

@@ -3,8 +3,8 @@ import { useSelector } from "react-redux";
 import { selectCartItemCount } from "../redux/slices/CartSlice";
 import { selectIsAuthenticated } from "../redux/slices/authSlice";
 import { Badge } from "@heroui/react";
-import UserProfile from "../components/UserProfile";
-import Auth from "../components/Auth";
+import UserProfile from "../components/profile/UserProfile";
+import Auth from "../components/auth/Auth";
 import { ShoppingCartIcon } from "@heroicons/react/16/solid";
 
 const Header = () => {
