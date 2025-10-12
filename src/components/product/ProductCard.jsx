@@ -1,10 +1,10 @@
 import { useDispatch } from "react-redux";
-import { addItemToCart } from "../redux/slices/CartSlice";
+import { addItemToCart } from "../../redux/slices/CartSlice";
 import { Badge, Button, Chip } from "@heroui/react";
 import toast from "react-hot-toast";
 import { StarIcon } from "@heroicons/react/16/solid";
-import { API_URL } from "../config/config";
-import { getJWT } from "../helpers/jwt";
+import { API_URL } from "../../config/config";
+import { getJWT } from "../../helpers/jwt";
 const ProductCard = ({ productId, thumbnail, title, summary, price }) => {
   const dispatch = useDispatch();
   const handleAddToCart = async () => {

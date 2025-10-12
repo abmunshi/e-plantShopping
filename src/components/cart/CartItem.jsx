@@ -1,9 +1,12 @@
 import { useDispatch } from "react-redux";
-import { removeItemFromCart, updateQuantity } from "../redux/slices/CartSlice";
+import {
+  removeItemFromCart,
+  updateQuantity,
+} from "../../redux/slices/CartSlice";
 import { Button } from "@heroui/react";
 import { XMarkIcon } from "@heroicons/react/16/solid";
-import { API_URL } from "../config/config";
-import Counter from "./cart/Counter";
+import { API_URL } from "../../config/config";
+import Counter from "../cart/Counter";
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/product/ProductCard";
 import { Container } from "../components/Utls";
 import HomeSkeleton from "../components/skeleton/HomeSkeleton";
 import { getProducts } from "../api/products";

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux";
-import CartItem from "../components/CartItem";
+import CartItem from "../components/cart/CartItem";
 import { Container } from "../components/Utls";
 import { Link } from "react-router";
 import { Button, Divider } from "@heroui/react";
