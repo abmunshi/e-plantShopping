@@ -9,9 +9,19 @@ const FormInput = ({ name, control, rules, placeholder, type = "text" }) => {
       rules={rules}
       render={({ field, fieldState }) => (
         <>
-          <Input {...field} type={type} placeholder={placeholder} />
+          <Input
+            {...field}
+            type={type}
+            placeholder={placeholder}
+            variant="bordered"
+            radius="none"
+            size="lg"
+            classNames={{
+              inputWrapper: "shadow-none",
+            }}
+          />
           {fieldState.error && (
-            <span className="text-red-500 text-sm">
+            <span className="text-danger text-sm">
               {fieldState.error.message}
             </span>
           )}

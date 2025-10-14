@@ -54,10 +54,13 @@ const SignIn = () => {
         <Button
           type="submit"
           fullWidth
-          className="gap-2 rounded-lg font-semibold "
+          className="gap-2 font-semibold border-warning text-warning"
+          radius="none"
+          size="lg"
+          variant="bordered"
           isLoading={isLoading}
         >
-          sign in
+          Sign In
         </Button>
 
         <div className="my-10">
@@ -66,15 +69,18 @@ const SignIn = () => {
 
         <Button
           fullWidth
-          className="mt-6 flex w-full items-center justify-center gap-2"
+          className="mt-6 flex w-full items-center justify-center gap-2 border-warning text-warning"
+          radius="none"
+          size="lg"
+          variant="bordered"
           isLoading={isLoading}
         >
           <img
             src={`https://www.material-tailwind.com/logos/logo-google.png`}
             alt="google"
             className="h-6 w-6"
-          />{" "}
-          sign in with google
+          />
+          Continue with Google
         </Button>
       </form>
     </div>
