@@ -17,15 +17,15 @@ const Header = () => {
         className="flex items-center gap-3 cursor-pointer"
         aria-label="Main logo in header, Go to home"
       >
-        <div className="bg-white w-16 h-16 rounded-full grid place-content-center ">
+        <div className="bg-white w-14 h-14 grid place-content-center ">
           <span className="inline-block text-3xl" aria-hidden="true">
             🌱
           </span>
         </div>
         <h1 className="text-white font-bold text-2xl" aria-hidden="true">
-          Paradise Nursery{" "}
+          Botanica Plus
           <span className="block font-normal text-base">
-            Where Green Meets Serenity
+            Nature's Finest Selection
           </span>
         </h1>
       </Link>
