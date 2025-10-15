@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { checkAuthStatus } from "./redux/slices/authSlice.js";
 import { getCurrentCart } from "./redux/slices/CartSlice.js";
 import { getJWT } from "./helpers/jwt.js";
+import GoogleRedirect from "./components/auth/GoogleRedirect.jsx";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -28,6 +29,10 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="/cart" element={<Cart />} />
       </Route>
+      <Route
+        path="/api/connect/:providerName/callback"
+        element={<GoogleRedirect />}
+      />
     </Routes>
   );
 };

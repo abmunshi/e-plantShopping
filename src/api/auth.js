@@ -82,3 +82,24 @@ export const getCurrentUser = async () => {
     throw error;
   }
 };
+
+// Start Google OAuth at Strapi
+export const getGoogleAuthUrl = () => `${API_URL}/api/connect/google`;
+
+// Exchange provider params for Strapi JWT
+export const handleProviderCallback = async (providerName, searchParams) => {
+  try {
+    const res = await fetch(
+      `${API_URL}/api/auth/${providerName}/callback${searchParams}`
+    );
+    if (!res.ok) {
+      throw new Error(`Couldn't login to Strapi. Something went wrong.`);
+    }
+    const data = await res.json();
+    sessionStorage.setItem("jwt", data.jwt);
+    return data;
+  } catch (err) {
+    console.error("Error during OAuth callback fetch:", err);
+    throw err;
+  }
+};

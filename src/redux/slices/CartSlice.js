@@ -198,14 +198,3 @@ export const selectCartTotals = createSelector([selectCartItems], (items) => {
 export const selectCartItemCount = createSelector([selectCartItems], (items) =>
   items.reduce((total, item) => total + item.quantity, 0)
 );
-
-const select9 = (para1) => para1;
-const select8 = (x) => 8 + x;
-const selectA = createSelector([select9, select8], (resultA, resultB) => {
-  console.log(resultA, resultB);
-});
-
-console.log("Testing selectA:");
-
-selectA(10);
-selectA(10);

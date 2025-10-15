@@ -4,12 +4,17 @@ import { selectIsAuthLoading, signIn } from "../../redux/slices/authSlice";
 import { Button } from "@heroui/react";
 import { DividerWithTextHr } from "../Utls";
 import FormInput from "./FormInput";
+import { getGoogleAuthUrl } from "../../api/auth";
 const SignIn = () => {
   const { handleSubmit, control } = useForm();
   const dispatch = useDispatch();
   const isLoading = useSelector(selectIsAuthLoading);
   const onSubmit = (data) => {
     dispatch(signIn({ email: data.email, password: data.password }));
+  };
+
+  const handleGoogleSignIn = () => {
+    window.location.href = getGoogleAuthUrl();
   };
 
   console.log("isLoading:", isLoading);
@@ -74,6 +79,7 @@ const SignIn = () => {
           size="lg"
           variant="bordered"
           isLoading={isLoading}
+          onPress={handleGoogleSignIn}
         >
           <img
             src={`https://www.material-tailwind.com/logos/logo-google.png`}
